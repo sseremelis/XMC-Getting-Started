@@ -1,13 +1,24 @@
 import * as FEAAS from '@sitecore-feaas/clientside/react';
 
-export default function ExampleClientsideComponent(props: {
-  title: string;
-  author: string;
-  genre: string;
-  publication_year: number;
-  isbn: string;
-  bold: boolean;
-}) {
+interface Fields {
+  data: {
+    datasource: {
+      children: {
+        results: {
+          title: string;
+          author: string;
+          genre: string;
+          publication_year: number;
+          isbn: string;
+        }[];
+      };
+    };
+  };
+}
+
+export default function ExampleClientsideComponent(props: { bold: boolean; fields: Fields }) {
+  const datasource = props.fields?.data?.datasource;
+
   return (
     <>
       <h2>Hybrid</h2>
@@ -15,12 +26,18 @@ export default function ExampleClientsideComponent(props: {
         <dt>Rendered on</dt>
         <dd>{typeof window != 'undefined' ? 'Clientside' : 'Server'}</dd>
         <dt>Data</dt>
-        <dd>
-          {props.title} {props.author} / {props.genre}
-        </dd>
-        <dd>
-          {props.publication_year} {props.isbn}
-        </dd>
+        {datasource
+          ? datasource.children.results.map((element) => (
+              <>
+                <dd>
+                  {element.title} {element.author} / {element.genre}
+                </dd>
+                <dd>
+                  {element.publication_year} {element.isbn}
+                </dd>
+              </>
+            ))
+          : 'No data'}
       </dl>
     </>
   );
@@ -34,24 +51,42 @@ FEAAS.registerComponent(ExampleClientsideComponent, {
   group: 'Examples',
   required: ['firstName'],
   properties: {
-    title: {
-      type: 'string',
-    },
-    author: {
-      type: 'string',
-    },
-    genre: {
-      type: 'string',
-    },
-    publication_year: {
-      type: 'number',
-    },
-    isbn: {
-      type: 'string',
-    },
     bold: {
       type: 'boolean',
       title: 'Show text in bold weight',
+    },
+    fields: {
+      type: 'object',
+      properties: {
+        data: {
+          type: 'object',
+          properties: {
+            datasource: {
+              type: 'object',
+              properties: {
+                children: {
+                  type: 'object',
+                  properties: {
+                    results: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          title: { type: 'string' },
+                          author: { type: 'string' },
+                          genre: { type: 'string' },
+                          publication_year: { type: 'number' },
+                          isbn: { type: 'string' },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
   },
   ui: {
