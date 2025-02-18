@@ -18,7 +18,7 @@ interface Fields {
 
 export default function ExampleClientsideComponent(props: { bold: boolean; fields: Fields }) {
   const datasource = props.fields?.data?.datasource;
-
+  console.log('comp props', props);
   return (
     <>
       <h2>Hybrid</h2>
