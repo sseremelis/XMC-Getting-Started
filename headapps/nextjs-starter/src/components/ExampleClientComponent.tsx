@@ -20,9 +20,9 @@ export default function ExampleClientsideComponent(props: { bold: boolean; books
         {props.books
           ? props.books.map((book) => (
               <>
-                <dd>
+                <dt>
                   {book.title} {book.author} / {book.genre}
-                </dd>
+                </dt>
                 <dd>
                   {book.publication_year} {book.isbn}
                 </dd>
