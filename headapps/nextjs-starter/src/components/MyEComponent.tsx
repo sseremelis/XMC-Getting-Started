@@ -8,3 +8,5 @@ export const MyEComponent = (props: MyEComponentProps): JSX.Element => {
     </div>
   );
 };
+
+// this one does not do anything
