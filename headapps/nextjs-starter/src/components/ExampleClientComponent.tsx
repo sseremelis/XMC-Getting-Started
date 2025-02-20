@@ -40,7 +40,6 @@ FEAAS.registerComponent(ExampleClientsideComponent, {
   description: 'Interactive UI with SEO-friendly fallback',
   thumbnail: 'https://feaasstatic.blob.core.windows.net/assets/thumbnails/byoc.svg',
   group: 'Examples',
-  required: ['firstName'],
   properties: {
     bold: {
       type: 'boolean',
